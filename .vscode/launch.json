@@ -24,9 +24,9 @@
             "commandsAfterLaunch": [
             ],
             "rootFolder": "${workspaceFolder}",
-            "topOfStack": "stack_top",
-            //"load": "fizzbuzz.sna",
-            "load": "fizzbuzz.nex",
+            //"topOfStack": "stack_top",
+            "load": "fizzbuzz.sna",
+            //"load": "fizzbuzz.nex",
             "smallValuesMaximum": 513,
             "tmpDir": ".tmp"
         },
