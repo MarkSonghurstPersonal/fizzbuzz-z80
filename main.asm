@@ -13,8 +13,8 @@
 main:
     call ROM_CLS
 
-    ld hl, (iterate_from)
-    ld de, (iterate_until)
+    ld de, (iterate_from)
+    ld hl, (iterate_until)
     call number_loop
 
 ;    ld hl, string_fizz  
@@ -44,7 +44,6 @@ ROM_CALCSTACK_DISPLAY equ $2DE3
     include "print.asm"
     include "numberloop.asm"
 
-
 ;===========================================================================
 ; Data
 ;
@@ -55,12 +54,14 @@ string_fizz:
 string_buzz:
     db 'Buzz', 0 
 iterate_until:
-    defw 500
+    defw 101
 iterate_from:
-    defw 0
+    defw 1
 current_number_xy:
-    defb 5,3
-    
+    defb 5,3    
+iteration_xy:
+    defb 0,0
+
 ;===========================================================================
 ; Build
 ;===========================================================================
