@@ -24,18 +24,21 @@ print_string_with_cr:
 ; prints the number in hl to the screen at the coordinates in bc
 print_number_with_cr:
     call set_screen_xy
+
+    ; Wipe the longest possible number of characters in hl to clear up trash - for example, 
+    ; if it was previously 100 and we're now printing 99, we need to wipe the line otherwise we get 990
+    push hl
+    call wipe_number
+    pop hl
+    call set_screen_xy ; reset the cursor position
+
+    ; Print the number in hl, via rom calls that use bc
     push bc
     ld bc, hl
-
-    ; TODO - if the number is less than 3 digits (>= 99) then the ROM call will print 990 instead of 99
-    ; might need to use a different ROM call to print the number when it's low.
-
     push de ; These ROM calls will overwrite de, so we need to save it
     call ROM_CALCSTACK_PUSH
     call ROM_CALCSTACK_DISPLAY
     pop de
-
-    ; earlier we pushed bc
     pop bc
 
     ; print a carriage return
@@ -51,4 +54,10 @@ set_screen_xy:
     rst $10
     ld a,c
     rst $10
+    ret
+
+; wipe_number prints string_wipenumber at the current cursor position
+wipe_number:
+    ld hl, string_wipenumber
+    call print_string
     ret

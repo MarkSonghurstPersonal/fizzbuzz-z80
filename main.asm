@@ -53,10 +53,12 @@ string_fizz:
     db 'Fizz', 0 
 string_buzz:
     db 'Buzz', 0 
+string_wipenumber
+    db '     ', 0
 iterate_until:
-    defw 101
+    defw 500
 iterate_from:
-    defw 1
+    defw 0
 current_number_xy:
     defb 5,3    
 iteration_xy:

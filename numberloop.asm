@@ -16,15 +16,17 @@ number_loop_iterate:
     push hl
     push bc
     ld hl, bc
+    dec hl ; dec 1 from the number so it's 0-based for printing
     ld bc, (iteration_xy)
     call print_number_with_cr
     pop bc
     pop hl
 
-    ; Print the number in hl at the coordinates in bc
+    ; Print the number in de at the coordinates in bc
     push hl
     push bc
     ld hl, de
+    inc hl ; inc 1 from the number so it's 1-based for printing
     ld bc, (current_number_xy)
     call print_number_with_cr
     pop bc
