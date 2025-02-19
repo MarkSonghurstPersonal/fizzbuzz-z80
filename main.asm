@@ -11,16 +11,22 @@
 ; main routine - the code execution starts here.
 ;===========================================================================
 main:
+    ei   ; Enable interrupts
+    im 1 ; Set interrupt mode 1 (ROM interrupt handler)
+
     call ROM_CLS
 
-    ld HL, string_fizz  ; Load the address of the string into HL
-    call print_string_with_cr   ; Call the subroutine to print the string
+    ld de, (iterate_from)
+    ld hl, (iterate_until)
+    call number_loop
 
+;    ld hl, string_fizz  
+;    call print_string_with_cr 
 
-    ld HL, string_buzz
-    call print_string 
+    ;ld hl, string_buzz
+    ;call print_string 
 
-    ret                 ; End program
+    ret ; End program
 
 
 
@@ -30,27 +36,37 @@ main:
 
 ; Clears the screen and puts the cursor at the top of the screen
 ROM_CLS     equ $0DAF 
+; Push the number in bc onto the calculator stack
+ROM_CALCSTACK_PUSH equ $2D2B
+; Display the top of the calculator stack
+ROM_CALCSTACK_DISPLAY equ $2DE3
 
 ;===========================================================================
 ; Include modules
 ;===========================================================================
-    include "printstring.asm"
-
+    include "print.asm"
+    include "numberloop.asm"
 
 ;===========================================================================
-; Static data
+; Data
 ;
 ; Strings used with print_string must be NULL terminated.
 ;===========================================================================
-string_fizz:
+string_fizz: 
     db 'Fizz', 0 
 string_buzz:
     db 'Buzz', 0 
+string_wipenumber
+    db '     ', 0
+iterate_until:
+    defw 50
+iterate_from:
+    defw 0
+current_number_xy:
+    defb 5,3    
+iteration_xy:
+    defb 0,0
 
-
-
-
-    
 ;===========================================================================
 ; Build
 ;===========================================================================
