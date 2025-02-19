@@ -11,6 +11,9 @@
 ; main routine - the code execution starts here.
 ;===========================================================================
 main:
+    ei   ; Enable interrupts
+    im 1 ; Set interrupt mode 1 (ROM interrupt handler)
+
     call ROM_CLS
 
     ld de, (iterate_from)
@@ -23,7 +26,7 @@ main:
     ;ld hl, string_buzz
     ;call print_string 
 
-    ret                 ; End program
+    ret ; End program
 
 
 
@@ -56,7 +59,7 @@ string_buzz:
 string_wipenumber
     db '     ', 0
 iterate_until:
-    defw 500
+    defw 50
 iterate_from:
     defw 0
 current_number_xy:

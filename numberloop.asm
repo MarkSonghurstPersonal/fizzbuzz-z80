@@ -32,21 +32,11 @@ number_loop_iterate:
     pop bc
     pop hl
 
-    ; Delay so we can see the number and FizzBuzz result
-    ;push bc
-    ;call delay
-    ;pop bc
+    ; Halt until the next interrupt, so we can see the number and FizzBuzz result
+    halt
 
     dec bc                  ; Decrement bc by 1
     inc de                  ; Increment de by 1
     jr number_loop_iterate
 
 number_loop_end ret
-
-delay:
-    ; code below isn't working - TODO: fix this
-    ld b,10
-delay0:
-    halt
-    djnz delay0
-    ret
