@@ -1,4 +1,4 @@
-; print_string subroutine
+; print_string
 ; Assumes hl points to the string to be printed
 ; stops printing when it reaches NULL (0)
 print_string:
@@ -10,7 +10,7 @@ print_string:
     jr print_string
 print_string_end ret
 
-; print_string_with_cr subroutine
+; print_string_with_cr
 ; Assumes hl points to the string to be printed
 ; stops printing when it reaches NULL (0)
 ; prints a carriage return after the string.
@@ -20,10 +20,11 @@ print_string_with_cr:
     rst $10
     ret
 
-; print_number_with_cr subroutine
+; print_number_with_cr
 ; prints the number in hl to the screen at the coordinates in bc
 print_number_with_cr:
     call set_screen_xy
+    call bold
 
     ; Wipe the longest possible number of characters in hl to clear up trash - for example, 
     ; if it was previously 100 and we're now printing 99, we need to wipe the line otherwise we get 990
@@ -60,4 +61,29 @@ set_screen_xy:
 wipe_number:
     ld hl, string_wipenumber
     call print_string
+    ret
+
+bold:
+    push hl
+    push de
+    push bc
+    ld hl, 15616
+    ld de, 60000
+    ld bc, 768
+bold_font1:
+    ld a, (hl)
+    rlca
+    or (hl)
+    ld (de), a
+    inc hl
+    inc de
+    dec bc
+    ld a,b
+    or c
+    jr nz, bold_font1    
+    ld hl, 60000-256
+    ld (23606), hl
+    pop bc
+    pop de
+    pop hl
     ret

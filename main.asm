@@ -18,16 +18,11 @@ main:
 
     ld de, (iterate_from)
     ld hl, (iterate_until)
+    inc hl ; Increment by 1 so we include the last number
+
     call number_loop
 
-;    ld hl, string_fizz  
-;    call print_string_with_cr 
-
-    ;ld hl, string_buzz
-    ;call print_string 
-
     ret ; End program
-
 
 
 ;===========================================================================
@@ -40,12 +35,19 @@ ROM_CLS     equ $0DAF
 ROM_CALCSTACK_PUSH equ $2D2B
 ; Display the top of the calculator stack
 ROM_CALCSTACK_DISPLAY equ $2DE3
+; Beep the speaker using pitch in hl and duration in de
+ROM_BEEP equ $03BD
+; Set the border to the colour in a
+ROM_BORDER equ $229B
 
 ;===========================================================================
 ; Include modules
 ;===========================================================================
     include "print.asm"
     include "numberloop.asm"
+    include "divide.asm"
+    include "beep.asm"
+    include "border.asm"
 
 ;===========================================================================
 ; Data
@@ -54,16 +56,22 @@ ROM_CALCSTACK_DISPLAY equ $2DE3
 ;===========================================================================
 string_fizz: 
     db 'Fizz', 0 
+string_no_fizz: 
+    db '    ', 0 
+
 string_buzz:
     db 'Buzz', 0 
+string_no_buzz:
+    db '    ', 0 
+
 string_wipenumber
     db '     ', 0
 iterate_until:
-    defw 50
+    defw 250
 iterate_from:
-    defw 0
+    defw 1
 current_number_xy:
-    defb 5,3    
+    defb 0,0    
 iteration_xy:
     defb 0,0
 
